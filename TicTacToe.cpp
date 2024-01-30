@@ -22,7 +22,9 @@ int main() {
             }
         }
     }
-    auto root = Node<N, M>::create(b);
+    auto root = new Node(b);
     root->gameState.debug();
+    
+
     return 0;
 }
