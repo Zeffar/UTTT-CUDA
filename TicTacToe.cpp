@@ -1,25 +1,28 @@
 #pragma GCC optimize("O3,unroll-loops")
-// #include <iostream>
-// #include <algorithm>
-// #include <cmath>
-// #include <fstream>
-#include <bits/stdc++.h>
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+#include <fstream>
+#include "bitset.hpp"
+#include "node.hpp"
 using namespace std;
 
+const int N = 9, M = 18;
 int main() {
-    bitset<18*9> b;
-    cout<<b;
-    // string file = "gameState";
-    // ifstream read(file);
-    // srand(time(0));
-    // short a[9][9], i{}, j{};
-    // bool x;
-    // for( ; i < 10; ++i) {
-    //     for( ; j < 10; ++j) {
-    //         read>>x;
-    //         a[i][j]=x;
-    //     }
-    // }
-    
+    bitset2D<9,18> b;
+    string file = "gameState.txt";
+    ifstream read(file);
+    srand(time(0));
+    short x;
+    for(short i{}; i < 9; ++i) {
+        for(short j{}; j < 18; j+=2) {
+            read>>x;
+            if(x) {
+                b.set(i, j+2-x);
+            }
+        }
+    }
+    auto root = Node<N, M>::create(b);
+    root->gameState.debug();
     return 0;
 }
