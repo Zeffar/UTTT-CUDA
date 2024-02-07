@@ -32,11 +32,16 @@ public:
   unsigned long none() const {return m_bits.none();}
 
   void debug() {
-    for(short i{}; i < M; ++i) {
+    for(short j{}; j < N; j+=2) {
+      std::cout<<(*this)(M-1, j)*2 + (*this)(M-1, j+1)<<" ";
+      if((j/2)%3==2) std::cout<<'\n';
+    } //big board (toDo: make it clean)
+
+    for(short i{}; i < M-1; ++i) {
         for(short j{}; j < N; j+=2) 
-            std::cout<<(*this)(i, j)<<(*this)(i, j+1)<<" ";
+            std::cout<<(*this)(i, j)*2 + (*this)(i, j+1)<<" ";
         std::cout<<'\n';
-    }
+    } //small board
   }
 
 private:
