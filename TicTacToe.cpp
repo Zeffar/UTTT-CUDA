@@ -5,6 +5,7 @@
 #include <fstream>
 #include "bitset.hpp"
 #include "node.hpp"
+#include "MCTS.hpp"
 using namespace std;
 
 const int N = 10, M = 18;

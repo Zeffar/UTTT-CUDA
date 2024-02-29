@@ -21,39 +21,15 @@ public:
         node* child = new node(state, this);
         children.push_back(child);
     }
-    // bool isOver() {
-    //     //toDo
-    // }
-    bool isLeaf() const { return children.empty(); }
-    node* select() { 
-        node* selectedNode = this;
-        while(!selectedNode->isLeaf()) {
-            for (node* it: selectedNode->children) {
-                //evaluate all children
 
-            }
-            //select a child using heuristics
-        }
-        //after the selection reaches a leaf, 
-        //return pointer to the selected node
-        return selectedNode;
+    bool isLeaf() const { 
+        return children.empty(); 
     }
-    // int rollout() {
-    //     node* currentNode = new Node(this->gameState);
-    //     while(gameNotOver) {
-    //          simulateRandomMove();
-    //     }
-    //     delete currentNode
-    //     return currentNode->score;
-    // }
-
-
-
+    
     ~Node() {
         for (node child : children) {
             delete child;
         }
     }
 };
-
 #endif
