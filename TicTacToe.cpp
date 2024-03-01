@@ -25,13 +25,15 @@ int main() {
         }
     }
 
-    auto root = new Node(b);
-    root->addChild(b);
-    root->children[0]->gameState.set(4, 4);
-    root->children[0]->gameState.debug();
-    cout<<"\n\n";
-    root->gameState.debug();
-    // auto selectedNode = root->select();
+    auto root = new MCTS(b);
+    
+    // auto root = new Node(b);
+    // root->addChild(b);
+    // root->children[0]->gameState.set(4, 4);
+    // root->children[0]->gameState.debug();
+    // cout<<"\n\n";
+    // root->gameState.debug();
+    // // auto selectedNode = root->select();
     // selectedNode->gameState.debug();
 
     return 0;
