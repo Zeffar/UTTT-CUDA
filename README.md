@@ -1,8 +1,8 @@
 # UTTT-CUDA
-AI for Ultimate Tic Tac Toe using CUDA 
+AI for Ultimate Tic Tac Toe using CUDA <br>
 Work in Progress.  <div>
 toDo:  <div>
 -Node class (Done) <div>
--selection heuristics  <div>
+-selection heuristics (Done)  <div>
 -MC rollout  <div> 
--Lazy BackPropagation  <div>
+-BackPropagation  <div>
