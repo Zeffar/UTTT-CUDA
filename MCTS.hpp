@@ -8,8 +8,27 @@ class MCTS {
 private:
     //toDo: turn mechanics
 
-    Node<M, N>* root;
+    Node<M, N> root;
     double exploration = sqrt(2);
+    
+    void expand(Node<M, N>& node) {
+        // todo `generatePossibleMoves`
+        auto possibleMoves = node->generatePossibleMoves();
+        for (const auto& move : possibleMoves) {
+            Node<M, N>* childNode = new Node<M, N>(node->state.applyMove(move));
+            node->addChild(childNode);
+        }
+    }
+
+    void backpropagate(Node<M, N>* leaf, bool result) {
+        Node<M, N>* currentNode = leaf;
+        while (currentNode != nullptr) {
+            currentNode->visits ++;
+            currentNode->wins[result] ++;
+
+            currentNode = currentNode->parent;
+        }
+    }
 
     
     Node<M, N>* selectBestChild(Node<M, N>* node) {
@@ -30,41 +49,43 @@ private:
         return bestChild;
     }
 
-    int rollout() {
-    //     node* currentNode = new Node(this->gameState);
-    //     while(gameNotOver) {
-    //          simulateRandomMove();
-    //     }
-    //     delete currentNode
-    //     return currentNode->score;
-        return rand() % 2;
-    }
-
-public: 
-    MCTS(const bitset2D<M, N>& initState) {
-        root = new Node<M,N>(initState);
-    }
-    ~MCTS() {
-        delete root;
-    }
-
-    Node<M, N>* select(Node<M, N>* node) {
-        while (!node->isLeaf()) {
+    Node<M, N>* selectLeaf(Node<M, N>* node) {
+        while (!node->isLeaf() && !node->isOver()) {
             node = selectBestChild(node);
         }
         return node;
     }
 
+    bool rollout(Node<M, N>* node) {
+        Node<M, N>* currentNode = node;
+        bool winner = 0;
+        while (!currentNode->isOver()) {
+            currentNode->simulateRandomMove();
+        }
+
+        return winner;
+    }
+
+public: 
+
+    MCTS(const bitset2D<M, N>& initState) : root(initState) {}
+
+    Node<M, N> getRoot() const {
+        return root;
+    }
+
     void search(int iterations) {
         for (int i = 0; i < iterations; ++i) {
-            Node<M, N>* leaf = selectLeaf(root);
+            Node<M, N>* leaf = selectLeaf(&root);
             if (!leaf->isOver()) {
                 expand(leaf);
+                bool result = rollout(leaf);
+                backpropagate(leaf, result);
             }
-            int result = rollout(leaf);
-            backpropagate(leaf, result);
+
         }
     }
 
 };
+
 #endif

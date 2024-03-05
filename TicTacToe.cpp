@@ -25,10 +25,13 @@ int main() {
         }
     }
 
-    auto root = new MCTS(b);
+    // auto root = new MCTS(b);
+    MCTS tree(b);
+    // Node root(b);
+    // root.addChild(b);
+    cout<<tree.getRoot();
+    tree.getRoot().addChild(b);
     
-    // auto root = new Node(b);
-    // root->addChild(b);
     // root->children[0]->gameState.set(4, 4);
     // root->children[0]->gameState.debug();
     // cout<<"\n\n";
