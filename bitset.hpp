@@ -6,6 +6,9 @@
 template <size_t M, size_t N>
 class bitset2D
 {
+private:
+  std::bitset<M*N> m_bits;
+  
 public:
   typedef typename std::bitset<M*N>::reference reference;
   bitset2D() : m_bits(){}
@@ -85,7 +88,6 @@ public:
     } //small board
   }
 
-private:
-  std::bitset<M*N> m_bits;
+
 };
 #endif

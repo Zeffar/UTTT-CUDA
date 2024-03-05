@@ -5,7 +5,7 @@
 
 template <size_t M, size_t N>
 class Node {
-public:
+private:
     bitset2D<M, N> gameState;
     Node<M, N>* parent;
     std::vector<Node<M, N>*> children;
@@ -13,6 +13,8 @@ public:
     int visits;
     int score;
 
+public:
+    
     Node(const bitset2D<M, N>& state, Node<M, N>* parent = nullptr)
         : gameState(state), parent(parent), wins(0), visits(0) {}
 
