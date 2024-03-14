@@ -13,14 +13,16 @@ public:
   typedef typename std::bitset<M*N>::reference reference;
   bitset2D() : m_bits(){}
 
-  //Bit access
-  bool operator()(size_t m, size_t n) const {
-    return m_bits[m*N + n];
+  // Bit access
+  short operator()(short x, short y, short m, short n) const {
+    // Get two bits from the bitset and combine them
+    return short(m_bits[(m + x*3) * N + (n + y*3) * 2]<<1) + short(m_bits[(m + x*3) * N + (n + y*3) * 2 + 1]);
+  }
+  // myB (x, y, a, b) = myB[a+x*3][b+y*3]
+  short operator[](size_t m, size_t n) const {
+    return short(m_bits[9*N + m*3 + n*2]<<1) + short(m_bits[9*N + m*3 + n*2 + 1]);
   }
 
-  reference operator()(size_t m, size_t n) {
-    return m_bits[m*N + n];
-  }
 
   //Bit operations:
   bitset2D<M, N>& reset() {

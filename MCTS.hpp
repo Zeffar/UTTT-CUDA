@@ -82,9 +82,9 @@ public:
                 bool result = rollout(leaf);
                 backpropagate(leaf, result);
             }
-
         }
     }
+
 
 };
 

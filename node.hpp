@@ -13,6 +13,10 @@ private:
     int visits;
     int score;
 
+    // bitset2D<3, 3>* getSmallBoard() {
+
+    // }
+
 public:
     Node(const bitset2D<M, N>& state, Node<M, N>* parent = nullptr)
         : gameState(state), parent(parent), visits(0) { wins[0]=wins[1]=0;}
@@ -26,8 +30,9 @@ public:
         return children.empty(); 
     }
     
-    // bool isOver() {
+    // short isOver() {
     //     //toDo
+    //     bitset2D<3, 3> *checker = getSmallBoard();
     // }
     
     ~Node() {
@@ -42,19 +47,24 @@ public:
 };
 template <size_t M, size_t N>
 std::ostream &operator<<(std::ostream &out, const Node<M, N> &x){
-    // out<<1;
     bitset2D<M, N> state = x.get();
 
-    for(short j{}; j < N; j+=2) {
-      out<<state(M-1, j)*2 + state(M-1, j+1)<<" ";
-      if((j/2)%3==2) out<<'\n';
-    } //big board (toDo: make it clean)
-
-    for(short i{}; i < M-1; ++i) {
-        for(short j{}; j < N; j+=2) 
-            out<<state(i, j)*2 + state(i, j+1)<<" ";
+    for(short i{}; i < 3; ++i) {
+        for(short j{}; j < 3; j++) 
+            out<<state[i, j]<<" ";
         out<<'\n';
-    } //small board
+    }
+
+    for(int x{}; x < 3; ++x) {
+        for(int y{}; y < 3; ++y) {
+            for(short i{}; i < 3; ++i) {
+                for(short j{}; j < 3; j++) 
+                    out<<state(x, y, i, j)<<" ";
+            }
+            out<<'\n';
+        }
+    }
+    
   return out;
 }
  
