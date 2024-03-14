@@ -29,8 +29,8 @@ int main() {
     MCTS tree(b);
     // Node root(b);
     // root.addChild(b);
-    cout<<tree.getRoot();
-    tree.getRoot().addChild(b);
+    // cout<<tree.getRoot();
+    cout<<tree.getRoot().isOver()<<'\n';
     
     // root->children[0]->gameState.set(4, 4);
     // root->children[0]->gameState.debug();
