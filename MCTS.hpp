@@ -3,7 +3,7 @@
 #include "node.hpp"
 #include "bitset.hpp"
 
-template <size_t M, size_t N>
+template <short M, short N>
 class MCTS {
 private:
     //toDo: turn mechanics

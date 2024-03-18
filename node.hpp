@@ -3,7 +3,7 @@
 #include <vector>
 #include "bitset.hpp"
 
-template <size_t M, size_t N>
+template <short M, short N>
 class Node
 {
 private:
@@ -14,9 +14,6 @@ private:
     int visits;
     int score;
 
-    // bitset2D<3, 3>* getSmallBoard() {
-
-    // }
 
 public:
     Node(const bitset2D<M, N> &state, Node<M, N> *parent = nullptr)
@@ -35,7 +32,7 @@ public:
 
     short isOver()
     {
-        for (int i = 0; i < 3; ++i)
+        for (short i = 0; i < 3; ++i)
         {
             if (gameState[i, 0] && gameState[i, 0] == gameState[i, 1] && gameState[i, 0] == gameState[i, 2] ||
                 gameState[0, i] && gameState[0, i] == gameState[1, i] && gameState[0, i] == gameState[2, i])
@@ -67,7 +64,8 @@ public:
         return gameState;
     }
 };
-template <size_t M, size_t N>
+
+template <short M, short N>
 std::ostream &operator<<(std::ostream &out, const Node<M, N> &x)
 {
     bitset2D<M, N> state = x.get();

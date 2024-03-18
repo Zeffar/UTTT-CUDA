@@ -3,7 +3,7 @@
 
 #include <bitset>
 #include <iostream>
-template <size_t M, size_t N>
+template <short M, short N>
 class bitset2D
 {
 private:
@@ -19,7 +19,8 @@ public:
     return short(m_bits[(m + x*3) * N + (n + y*3) * 2]<<1) + short(m_bits[(m + x*3) * N + (n + y*3) * 2 + 1]);
   }
   // myB (x, y, a, b) = myB[a+x*3][b+y*3]
-  short operator[](size_t m, size_t n) const {
+
+  short operator[](short m, short n) const {
     return short(m_bits[9*N + m*3 + n*2]<<1) + short(m_bits[9*N + m*3 + n*2 + 1]);
   }
 
@@ -30,7 +31,7 @@ public:
     return *this;
   }
 
-  bitset2D<M, N>& reset(size_t m, size_t n) {
+  bitset2D<M, N>& reset(short m, short n) {
     m_bits.reset(m*N + n); 
     return *this;
   }
@@ -40,7 +41,7 @@ public:
     return *this;
   }
 
-  bitset2D<M, N>& flip(size_t m, size_t n) {
+  bitset2D<M, N>& flip(short m, short n) {
     m_bits.flip(m*N + n); 
     return *this;
   }
@@ -49,7 +50,7 @@ public:
   return *this;
   }
 
-  bitset2D<M, N>& set(size_t m, size_t n, bool val = true) {
+  bitset2D<M, N>& set(short m, short n, bool val = true) {
     m_bits.set(m*N + n, val); 
     return *this;
   }
@@ -66,7 +67,7 @@ public:
   unsigned long size() const {
     return m_bits.size();
   }
-  unsigned long test(size_t m, size_t n) const {
+  unsigned long test(short m, short n) const {
     m_bits.test(m*N + n); 
     return *this;
   }
