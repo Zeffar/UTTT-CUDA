@@ -1,4 +1,4 @@
-#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC optimize("O2,unroll-loops")
 #include <iostream>
 #include <algorithm>
 #include <cmath>

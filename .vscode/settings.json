@@ -106,5 +106,12 @@
         "valarray": "cpp",
         "variant": "cpp",
         "stdfloat": "cpp"
-    }
+    },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "..",
+            "binaryPath": ".",
+            "binaryArgs": []
+        }
+    ]
 }
