@@ -32,7 +32,7 @@ private:
 
 public:
     Node(const bitset2D<M, N> &state, Node<M, N> *parent = nullptr)
-        : gameState(state), parent(parent), visits(0), turn(0), x(0), y(0), score(0) { wins[0] = wins[1] = 0; }
+        : gameState(state), parent(parent), visits(1), turn(0), x(0), y(0), score(0) { wins[0] = wins[1] = 0; }
 
     bool isLeaf() const
     {
@@ -103,8 +103,8 @@ public:
 
     Node<M, N> *selectBestChild(double exploration)
     {
-        Node<M, N> *bestChild = children[0];
-        double bestValue = std::numeric_limits<double>::lowest();
+        Node<M, N> *bestChild = nullptr;
+        double bestValue = -1;
         for (auto &child : children)
         {
             double uctValue =
@@ -113,11 +113,11 @@ public:
 
             if (uctValue > bestValue)
             {
+                
                 bestValue = uctValue;
                 bestChild = child;
             }
         }
-        std::cout<<"Best child selected "<<*bestChild<<'\n';
         return bestChild;
     }
 

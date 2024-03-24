@@ -16,9 +16,7 @@ private:
     {
         while (!node->isLeaf())
         {
-            std::cout<<"Selecting best child\n";
             node = node->selectBestChild(exploration);
-            std::cout<<"Selected node: "<<*node<<'\n';
         }
         return node;
     }

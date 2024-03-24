@@ -20,7 +20,7 @@ int main() {
     // Node<M, N> root(b);
     // cout<<root<<'\n';
     MCTS tree(b);
-    tree.search(10);
+    tree.search(1000);
     cout<<"Search done\n";
 
     return 0;
