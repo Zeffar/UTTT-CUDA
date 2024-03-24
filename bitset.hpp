@@ -37,9 +37,9 @@ public:
   friend std::istream &operator>>(std::istream &in, bitset2D<M, N> &b)
   {
     short x;
-    for (short i{}; i < M; ++i)
+    for (short i{}; i < M-1; ++i)
     {
-      for (short j{}; j < N; ++j)
+      for (short j{}; j < N/2 - 1; ++j)
       {
         in >> x;
         if(x)

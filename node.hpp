@@ -20,7 +20,7 @@ private:
         gameState.set(3*x+i, 3*y+j, turn + 1);
         if (isOverMini(x, y))
         {   
-            gameState.set(M-1, j, turn+1);
+            gameState.set(M-2, j, turn+1);
         }
     }
 
@@ -32,7 +32,7 @@ private:
 
 public:
     Node(const bitset2D<M, N> &state, Node<M, N> *parent = nullptr)
-        : gameState(state), parent(parent), visits(0) { wins[0] = wins[1] = 0; }
+        : gameState(state), parent(parent), visits(0), turn(0), x(0), y(0), score(0) { wins[0] = wins[1] = 0; }
 
     bool isLeaf() const
     {
@@ -50,6 +50,9 @@ public:
                     Node<M, N> *child = new Node<M, N>(gameState);
                     child->move(x, y, i, j);
                     addChild(child);
+                    child->turn = !turn;
+                    child->x = i;
+                    child->y = j;
                 }
             }
         }
@@ -73,8 +76,10 @@ public:
                 }
             }
             short len = possibleMoves.size();
+            if(!len) return isOver();
             short choice = rand() % len;
             move(x, y, possibleMoves[choice].first, possibleMoves[choice].second);
+            turn = !turn;
 
             // if game over, retun winner
             winner = isOver();
@@ -98,7 +103,7 @@ public:
 
     Node<M, N> *selectBestChild(double exploration)
     {
-        Node<M, N> *bestChild = nullptr;
+        Node<M, N> *bestChild = children[0];
         double bestValue = std::numeric_limits<double>::lowest();
         for (auto &child : children)
         {
@@ -112,7 +117,7 @@ public:
                 bestChild = child;
             }
         }
-
+        std::cout<<"Best child selected "<<*bestChild<<'\n';
         return bestChild;
     }
 
@@ -158,13 +163,13 @@ public:
         return 3;
     }
 
-    ~Node()
-    {
-        for (Node<M, N> *child : children)
-        {
-            delete child;
-        }
-    }
+    // ~Node()
+    // {
+    //     for (Node<M, N> *child : children)
+    //     {
+    //         delete child;
+    //     }
+    // }
 
     bitset2D<M, N> get() const
     {

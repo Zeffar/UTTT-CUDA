@@ -16,7 +16,9 @@ private:
     {
         while (!node->isLeaf())
         {
+            std::cout<<"Selecting best child\n";
             node = node->selectBestChild(exploration);
+            std::cout<<"Selected node: "<<*node<<'\n';
         }
         return node;
     }
@@ -34,12 +36,14 @@ public:
         for (int i = 0; i < iterations; ++i)
         {
             Node<M, N> *leaf = selectLeaf(&root);
+            // std::cout<<*leaf<<'\n';
             if (!leaf->isOver())
             {
                 leaf->expand();
                 Node <M, N> aux = *leaf;
                 bool result = aux.rollout();
                 leaf->backpropagate(result);
+                
             }
         }
     }
