@@ -8,3 +8,6 @@ build: TicTacToe.cpp
 
 clean:
 	rm -f UTTT
+
+run: 
+	./UTTT

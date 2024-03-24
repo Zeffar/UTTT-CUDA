@@ -17,14 +17,17 @@ private:
     short score;
     void move(short x, short y, short i, short j)
     {
-        gameState(x, y, i, j) = turn + 1;
+        gameState.set(3*x+i, 3*y+j, turn + 1);
         if (isOverMini(x, y))
-            gameState[x, y] = turn + 1;
+        {   
+            gameState.set(M-1, j, turn+1);
+        }
     }
 
-    void addChild(const Node<M, N> *child)
+    void addChild( Node<M, N> *child)
     {
         children.push_back(child);
+        child->parent = this;
     }
 
 public:
@@ -36,16 +39,6 @@ public:
         return children.empty();
     }
 
-    // void expand()
-    // {
-    //     // todo `generatePossibleMoves`
-    //     auto possibleMoves = node->generatePossibleMoves();
-    //     for (const auto &move : possibleMoves)
-    //     {
-    //         Node<M, N> *childNode = new Node<M, N>(node->state.applyMove(move));
-    //         node->addChild(childNode);
-    //     }
-    // }
     void expand()
     {
         for (int i = 0; i < 3; ++i)
@@ -54,9 +47,8 @@ public:
             {
                 if (gameState(x, y, i, j) == 0)
                 {
-                    bitset2D<M, N> childBoard = gameState;
-                    childBoard.move(x, y, i, j);
-                    Node<M, N> *child = new Node<M, N>(childBoard);
+                    Node<M, N> *child = new Node<M, N>(gameState);
+                    child->move(x, y, i, j);
                     addChild(child);
                 }
             }
@@ -82,7 +74,7 @@ public:
             }
             short len = possibleMoves.size();
             short choice = rand() % len;
-            gameState.move(x, y, possibleMoves[choice].first, possibleMoves[choice].second);
+            move(x, y, possibleMoves[choice].first, possibleMoves[choice].second);
 
             // if game over, retun winner
             winner = isOver();
@@ -92,17 +84,37 @@ public:
         }
     }
 
-    // void backpropagate(Node<M, N> *leaf, bool result)
-    // {
-    //     Node<M, N> *currentNode = leaf;
-    //     while (currentNode != nullptr)
-    //     {
-    //         currentNode->visits++;
-    //         currentNode->wins[result]++;
+    void backpropagate(bool result)
+    {
+        Node<M, N> *currentNode = this;
+        while (currentNode != nullptr)
+        {
+            currentNode->visits++;
+            currentNode->wins[result]++;
 
-    //         currentNode = currentNode->parent;
-    //     }
-    // }
+            currentNode = currentNode->parent;
+        }
+    }
+
+    Node<M, N> *selectBestChild(double exploration)
+    {
+        Node<M, N> *bestChild = nullptr;
+        double bestValue = std::numeric_limits<double>::lowest();
+        for (auto &child : children)
+        {
+            double uctValue =
+                static_cast<double>(child->wins[turn]) / static_cast<double>(child->visits) +
+                exploration * sqrt(log(static_cast<double>(visits)) / static_cast<double>(child->visits));
+
+            if (uctValue > bestValue)
+            {
+                bestValue = uctValue;
+                bestChild = child;
+            }
+        }
+
+        return bestChild;
+    }
 
     short isOver() // returns 0 if not over, 1 if p1 won, 2 if p2 won, 3 if draw
     {
@@ -158,6 +170,7 @@ public:
     {
         return gameState;
     }
+    
 };
 
 template <short M, short N>

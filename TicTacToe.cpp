@@ -8,36 +8,20 @@
 #include "MCTS.hpp"
 using namespace std;
 
-const int N = 10, M = 18;
+const int M = 10, N = 18;
 int main() {
     string file = "gameState.txt";
     ifstream read(file);
     srand(time(0));
-    bitset2D<N, M> b;
+    bitset2D<M, N> b;
+    read>>b;
+    read.close();
 
-    short x;
-    for(short i{}; i < N; ++i) {
-        for(short j{}; j < M; j+=2) {
-            read>>x;
-            if(x) {
-                b.set(i, j+2-x);    
-            }
-        }
-    }
-
-    // auto root = new MCTS(b);
+    // Node<M, N> root(b);
+    // cout<<root<<'\n';
     MCTS tree(b);
-    // Node root(b);
-    // root.addChild(b);
-    // cout<<tree.getRoot();
-    cout<<tree.getRoot().isOver()<<'\n';
-    
-    // root->children[0]->gameState.set(4, 4);
-    // root->children[0]->gameState.debug();
-    // cout<<"\n\n";
-    // root->gameState.debug();
-    // // auto selectedNode = root->select();
-    // selectedNode->gameState.debug();
+    tree.search(1000);
+
 
     return 0;
 }

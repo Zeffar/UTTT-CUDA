@@ -26,70 +26,34 @@ public:
     return short(m_bits[9 * N + m * 3 + n * 2] << 1) + short(m_bits[9 * N + m * 3 + n * 2 + 1]);
   }
 
+  bitset2D<M, N> &operator=(const bitset2D<M, N> &other)
+  {
+    if(this != &other)
+      m_bits = other.m_bits;
+
+    return *this;
+  }
+
+  friend std::istream &operator>>(std::istream &in, bitset2D<M, N> &b)
+  {
+    short x;
+    for (short i{}; i < M; ++i)
+    {
+      for (short j{}; j < N; ++j)
+      {
+        in >> x;
+        if(x)
+          b.set(i, j, x);
+      }
+    }
+    return in;
+  }
+
   // Bit operations:
-  bitset2D<M, N> &reset()
+  bitset2D<M, N> &set(short m, short n, short val)
   {
-    m_bits.reset();
+    m_bits.set(m*N + n*2 + 2 - val, 1);
     return *this;
-  }
-
-  bitset2D<M, N> &reset(short m, short n)
-  {
-    m_bits.reset(m * N + n);
-    return *this;
-  }
-
-  bitset2D<M, N> &flip()
-  {
-    m_bits.flip();
-    return *this;
-  }
-
-  bitset2D<M, N> &flip(short m, short n)
-  {
-    m_bits.flip(m * N + n);
-    return *this;
-  }
-
-  bitset2D<M, N> &set()
-  {
-    m_bits.set();
-    return *this;
-  }
-
-  bitset2D<M, N> &set(short m, short n, bool val = true)
-  {
-    m_bits.set(m * N + n, val);
-    return *this;
-  }
-
-  // Bitset operations:
-  unsigned long to_ulong() const
-  {
-    return m_bits.to_ulong();
-  }
-
-  template <class charT, class traits, class Allocator>
-  unsigned long count() const
-  {
-    return m_bits.count();
-  }
-  unsigned long size() const
-  {
-    return m_bits.size();
-  }
-  unsigned long test(short m, short n) const
-  {
-    m_bits.test(m * N + n);
-    return *this;
-  }
-  unsigned long any() const
-  {
-    return m_bits.any();
-  }
-  unsigned long none() const
-  {
-    return m_bits.none();
   }
 };
 
