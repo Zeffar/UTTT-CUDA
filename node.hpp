@@ -12,19 +12,19 @@ private:
     std::vector<Node<M, N> *> children;
     short x, y; // which mini-board you can play in
     bool turn;  // which player's turn it is
-    short wins[2];
+    int wins[3];
     short visits;
     short score;
     void move(short x, short y, short i, short j)
     {
-        gameState.set(3*x+i, 3*y+j, turn + 1);
+        gameState.set(3 * x + i, 3 * y + j, turn + 1);
         if (isOverMini(x, y))
-        {   
-            gameState.set(M-2, j, turn+1);
+        {
+            gameState.set(M - 2, j, turn + 1);
         }
     }
 
-    void addChild( Node<M, N> *child)
+    void addChild(Node<M, N> *child)
     {
         children.push_back(child);
         child->parent = this;
@@ -50,7 +50,7 @@ public:
                     Node<M, N> *child = new Node<M, N>(gameState);
                     child->move(x, y, i, j);
                     addChild(child);
-                    child->turn = !turn;
+                    child->turn = 1 - turn;
                     child->x = i;
                     child->y = j;
                 }
@@ -76,27 +76,28 @@ public:
                 }
             }
             short len = possibleMoves.size();
-            if(!len) return isOver();
+            if (!len)
+                return isOver();
             short choice = rand() % len;
             move(x, y, possibleMoves[choice].first, possibleMoves[choice].second);
-            turn = !turn;
+            x = possibleMoves[choice].first;
+            y = possibleMoves[choice].second;
+            turn = 1 - turn;
 
             // if game over, retun winner
             winner = isOver();
             if (winner)
                 return winner;
-            
         }
     }
 
-    void backpropagate(bool result)
+    void backpropagate(short result)
     {
         Node<M, N> *currentNode = this;
         while (currentNode != nullptr)
         {
             currentNode->visits++;
             currentNode->wins[result]++;
-
             currentNode = currentNode->parent;
         }
     }
@@ -113,7 +114,7 @@ public:
 
             if (uctValue > bestValue)
             {
-                
+
                 bestValue = uctValue;
                 bestChild = child;
             }
@@ -163,19 +164,28 @@ public:
         return 3;
     }
 
-    // ~Node()
-    // {
-    //     for (Node<M, N> *child : children)
-    //     {
-    //         delete child;
-    //     }
-    // }
-
     bitset2D<M, N> get() const
     {
         return gameState;
     }
-    
+
+    Node<M, N> &operator=(const Node<M, N> &other)
+    {
+        if (this != &other)
+        {
+            gameState = other.gameState;
+            parent = other.parent;
+            children = other.children;
+            x = other.x;
+            y = other.y;
+            turn = other.turn;
+            wins[0] = other.wins[0];
+            wins[1] = other.wins[1];
+            visits = other.visits;
+            score = other.score;
+        }
+        return *this;
+    }
 };
 
 template <short M, short N>

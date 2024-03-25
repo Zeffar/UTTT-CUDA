@@ -24,9 +24,9 @@ private:
 public:
     MCTS(const bitset2D<M, N> &initState) : root(initState) {}
 
-    Node<M, N> getRoot() const
+    Node<M, N>* getRoot() const
     {
-        return root;
+        return *root;
     }
 
     void search(int iterations)
@@ -34,14 +34,12 @@ public:
         for (int i = 0; i < iterations; ++i)
         {
             Node<M, N> *leaf = selectLeaf(&root);
-            // std::cout<<*leaf<<'\n';
             if (!leaf->isOver())
             {
                 leaf->expand();
                 Node <M, N> aux = *leaf;
                 bool result = aux.rollout();
-                leaf->backpropagate(result);
-                
+                leaf->backpropagate(result-1); // 0 for player 1, 1 for player 2, 2 for draw
             }
         }
     }

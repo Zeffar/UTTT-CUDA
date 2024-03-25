@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++23
 
-all: build
+all: build run
 
 build: TicTacToe.cpp
 	$(CXX) $(CXXFLAGS) TicTacToe.cpp -o UTTT 
