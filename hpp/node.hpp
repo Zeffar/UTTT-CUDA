@@ -122,7 +122,7 @@ public:
         return bestChild;
     }
 
-    short isOver() // returns 0 if not over, 1 if p1 won, 2 if p2 won, 3 if draw
+    short isOver() const // returns 0 if not over, 1 if p1 won, 2 if p2 won, 3 if draw
     {
         for (short i = 0; i < 3; ++i)
         {
@@ -143,7 +143,7 @@ public:
         return 3;
     }
 
-    short isOverMini(short x, short y)
+    short isOverMini(short x, short y) const
     {
         for (short i = 0; i < 3; ++i)
         {

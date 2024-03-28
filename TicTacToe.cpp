@@ -3,9 +3,7 @@
 #include <algorithm>
 #include <cmath>
 #include <fstream>
-#include "bitset.hpp"
-#include "node.hpp"
-#include "MCTS.hpp"
+#include "avizier.hpp"
 using namespace std;
 
 const int M = 10, N = 18;
@@ -20,7 +18,8 @@ int main() {
     // Node<M, N> root(b);
     // cout<<root<<'\n';
     MCTS tree(b);
-    tree.search(10);
+    tree.search(1000);
+    // cout<<tree.getRoot()<<'\n'; 
     cout<<"Search done\n";
 
     return 0;

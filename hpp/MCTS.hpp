@@ -1,7 +1,7 @@
 #ifndef MCTS_HPP
 #define MCTS_HPP
 #include "node.hpp"
-#include "bitset.hpp"
+
 
 template <short M, short N>
 class MCTS
@@ -24,9 +24,9 @@ private:
 public:
     MCTS(const bitset2D<M, N> &initState) : root(initState) {}
 
-    Node<M, N>* getRoot() const
+    Node<M, N> getRoot() const
     {
-        return *root;
+        return root;
     }
 
     void search(int iterations)
