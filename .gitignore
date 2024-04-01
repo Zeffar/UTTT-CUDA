@@ -34,3 +34,5 @@
 test.cpp
 testing
 UTTT
+*.ini
+test
