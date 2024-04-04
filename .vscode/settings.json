@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "algorithm": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "string": "cpp"
     },
     "makefile.launchConfigurations": [
         {
