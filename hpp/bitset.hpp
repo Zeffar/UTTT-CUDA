@@ -14,6 +14,7 @@ public:
   bitset2D() : m_bits() {}
 
   // Bit access
+  //small boards
   short operator()(short x, short y, short m, short n) const
   {
     // Get two bits from the bitset and combine them

@@ -10,7 +10,6 @@ test: test.cpp
 
 build: TicTacToe.cpp
 	$(CXX) $(CXXFLAGS) TicTacToe.cpp -o UTTT -lglfw -lGL -ldl -lpthread 
-	./UTTT
 
 clean:
 	rm -f UTTT
