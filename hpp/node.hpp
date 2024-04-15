@@ -33,9 +33,9 @@ public:
         x = i;
         y = j;
     }
-    virtual short getX() {return x;}
-    virtual short getY() {return y;}
-    
+    virtual short getX() { return x; }
+    virtual short getY() { return y; }
+
     virtual short isOver() const // returns 0 if not over, 1 if p1 won, 2 if p2 won, 3 if draw
     {
         for (short i = 0; i < 3; ++i)
@@ -100,26 +100,28 @@ private:
     }
 
 public:
-    Node(const bitset2D<M, N> &state, Node<M, N> *parent = nullptr)
-        : GameState<M, N>(state), parent(parent), visits(1), score(0) { wins[0] = wins[1] = 0; }
+    Node(const bitset2D<M, N> &state, Node<M, N> *parent = nullptr, short a = 0, short b = 0) : GameState<M, N>(state), parent(parent), visits(1), score(0)
+    {
+        wins[0] = wins[1] = 0;
+        this->x = a;
+        this->y = b;
+    }
 
     bool isLeaf() const
     {
         return children.empty();
     }
 
-    void getBest(short v[4])
+    void getBest(short v[2])
     {
         int maxScore = -1;
-        v[0] = this->x;
-        v[1] = this->y;
         for (auto &child : children)
         {
             if (child->wins[this->turn] > maxScore)
             {
-                v[2] = child->x;
-                v[3] = child->y;
-                maxScore = wins[this->turn];
+                v[0] = child->x;
+                v[1] = child->y;
+                maxScore = child->wins[this->turn];
             }
         }
         return;

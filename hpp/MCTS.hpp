@@ -22,7 +22,7 @@ private:
     }
 
 public:
-    MCTS(const bitset2D<M, N> &initState) : root(initState) {}
+    MCTS(const bitset2D<M, N> &initState, short x, short y) : root(initState, nullptr, x, y) {}
 
     Node<M, N> getRoot() const
     {
