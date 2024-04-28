@@ -82,14 +82,14 @@ private:
                     ImGui::TableSetColumnIndex(col);
 
                     int clusterIndex = row * 3 + col;
-                    if (clusterIndex == highlightedCluster && !isSelected[row][col] )
-                    {
-                        // Highlight this cluster
-                        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 0.5f, 0.0f, 1.0f)); // Orange for highlight
-                        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.6f, 0.0f, 1.0f));
-                        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 0.8f, 0.0f, 1.0f));
-                        isSelected[row][col] = 1;
-                    }
+                    // if (clusterIndex == highlightedCluster && !isSelected[row][col] )
+                    // {
+                    //     // Highlight this cluster
+                    //     ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 0.5f, 0.0f, 1.0f)); // Orange for highlight
+                    //     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.6f, 0.0f, 1.0f));
+                    //     ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 0.8f, 0.0f, 1.0f));
+                    //     isSelected[row][col] = 1;
+                    // }
 
                     // Create a sub-table for each cluster to control inner spacing
                     if (ImGui::BeginTable("ClusterSubTable", 3, ImGuiTableFlags_SizingFixedSame))
