@@ -19,8 +19,7 @@ private:
     
     static void glfw_error_callback(int error, const char *description)
     {
-        // printf(stderr, "GLFW Error %d: %s\n", error, description);
-        std::cout << "error";
+        printf("GLFW Error %d: %s\n", error, description);
     }
     bool is_machine_turn = false;
     const int width = 1920, height = 1080;
@@ -145,7 +144,7 @@ private:
         static int counter = 0;
         ImGui::SetNextWindowSize(ImVec2(L, L), ImGuiCond_FirstUseEver);                                             // Custom size
         ImGui::SetNextWindowPos(ImVec2(width / 2 + width / 4 - L / 2, height / 2 - L / 2), ImGuiCond_FirstUseEver); // Custom position
-        ImGui::Begin("Hello, world!");                                                                              // Create a window called "Hello, world!" and append into it.
+        ImGui::Begin("Welcome to UTTT");                                                                              // Create a window called "Hello, world!" and append into it.
 
         ImGui::Text("This is some useful text."); // Display some text
         if (ImGui::Button("Start Game"))
@@ -154,7 +153,6 @@ private:
             // show_welcome = false;
         }
 
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);             // Edit 1 float using a slider from 0.0f to 1.0f
         ImGui::ColorEdit3("clear color", (float *)&clear_color); // Edit 3 floats representing a color
 
         if (ImGui::Button("Buton")) // Buttons return true when clicked (most widgets return true when edited/activated)
