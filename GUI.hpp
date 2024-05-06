@@ -16,23 +16,23 @@ class GUI
 {
 private:
     GameState<M, N> gameState;
-    int highlightedCluster = -1;
 
     static void glfw_error_callback(int error, const char *description)
     {
         printf("GLFW Error %d: %s\n", error, description);
     }
-    bool is_machine_turn = false;
+
     const int width = 1920, height = 1080;
     const int L = 900;
-    const char *glsl_version = "#version 130";
+
     GLFWwindow *window;
     ImVec4 clear_color;
-    bool show_welcome = true;
 
     void Game()
     {
-        bool isSelected[3][3]; // for cluster highlighting
+        static bool is_machine_turn = false;
+        static int highlightedCluster = -1;
+        static bool isSelected[3][3]; // for cluster highlighting
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
                 isSelected[i][j] = 0;
@@ -164,6 +164,8 @@ private:
     void loop()
     {
         static bool show_game = false;
+        static bool show_welcome = true;
+
         while (!glfwWindowShouldClose(window))
         {
             glfwPollEvents();
@@ -204,6 +206,7 @@ public:
         // const char *glsl_version = "#version 130";
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+        const char *glsl_version = "#version 130";
 
         // Create window with graphics context
         window = glfwCreateWindow(width, height, "Ultimate Tic Tac Toe", nullptr, nullptr);
