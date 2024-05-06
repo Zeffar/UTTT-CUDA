@@ -16,7 +16,8 @@ class GUI
 {
 private:
     GameState<M, N> gameState;
-    
+    int highlightedCluster = -1;
+
     static void glfw_error_callback(int error, const char *description)
     {
         printf("GLFW Error %d: %s\n", error, description);
@@ -28,9 +29,6 @@ private:
     GLFWwindow *window;
     ImVec4 clear_color;
     bool show_welcome = true;
-    bool show_game = false;
-    
-    
 
     void Game()
     {
@@ -39,17 +37,17 @@ private:
             for (int j = 0; j < 3; j++)
                 isSelected[i][j] = 0;
 
-        int highlightedCluster = -1;
         bitset2D<M, N> board = gameState.get();
-        if(is_machine_turn) { //get the best move somehow 
-            MCTS tree (board, gameState.getX(), gameState.getY());
+        if (is_machine_turn)
+        { // get the best move somehow
+            MCTS tree(board, gameState.getX(), gameState.getY());
             tree.search(1000);
             short moves[2];
             tree.getRoot().getBest(moves);
             gameState.move(gameState.getX(), gameState.getY(), moves[0], moves[1]);
             gameState.flip_turn();
-            gameState.changeBoard(moves[2], moves[3]);
-            highlightedCluster = moves[2] * 3 + moves[3];
+            gameState.changeBoard(moves[0], moves[1]);
+            highlightedCluster = moves[0] * 3 + moves[1];
             is_machine_turn = 0;
         }
         static float f = 0.0f;
@@ -64,7 +62,7 @@ private:
         float button_sz = L / 9 - 10;
         float cell_sz = button_sz * 3 + ImGui::GetStyle().CellPadding.x * 2 * 2; // 3 buttons and 2*2 padding
 
-                                                                               // Variable to track the highlighted cluster
+        // Variable to track the highlighted cluster
         if (ImGui::BeginTable("Clusters", 3, ImGuiTableFlags_BordersInner | ImGuiTableFlags_SizingFixedSame)) // 3x3 matrix with fixed sizing
         {
             // Set column width to evenly divide the table into three
@@ -81,14 +79,14 @@ private:
                     ImGui::TableSetColumnIndex(col);
 
                     int clusterIndex = row * 3 + col;
-                    // if (clusterIndex == highlightedCluster && !isSelected[row][col] )
-                    // {
-                    //     // Highlight this cluster
-                    //     ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 0.5f, 0.0f, 1.0f)); // Orange for highlight
-                    //     ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.6f, 0.0f, 1.0f));
-                    //     ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 0.8f, 0.0f, 1.0f));
-                    //     isSelected[row][col] = 1;
-                    // }
+                    if (clusterIndex == highlightedCluster)
+                    {
+                        // Highlight this cluster
+                        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 0.5f, 0.0f, 1.0f)); // Orange for highlight
+                        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 0.6f, 0.0f, 1.0f));
+                        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 0.8f, 0.0f, 1.0f));
+                        isSelected[row][col] = 1;
+                    }
 
                     // Create a sub-table for each cluster to control inner spacing
                     if (ImGui::BeginTable("ClusterSubTable", 3, ImGuiTableFlags_SizingFixedSame))
@@ -101,7 +99,6 @@ private:
                                 ImGui::TableSetColumnIndex(j);
                                 std::string buttonID = "##" + std::to_string(i) + std::to_string(j);
                                 std::string buttonText;
-
                                 switch (board(row, col, i, j))
                                 {
                                 case 0:
@@ -126,6 +123,8 @@ private:
                                 } // Button size scaled according to 'L'
                             }
                         }
+                        if (clusterIndex == highlightedCluster)
+                            ImGui::PopStyleColor(3);
                         ImGui::EndTable();
                     }
                 }
@@ -138,13 +137,13 @@ private:
         ImGui::End();
     }
 
-    void Welcome_screen()
+    void Welcome_screen(bool &show_game)
     {
         static float f = 0.0f;
         static int counter = 0;
         ImGui::SetNextWindowSize(ImVec2(L, L), ImGuiCond_FirstUseEver);                                             // Custom size
         ImGui::SetNextWindowPos(ImVec2(width / 2 + width / 4 - L / 2, height / 2 - L / 2), ImGuiCond_FirstUseEver); // Custom position
-        ImGui::Begin("Welcome to UTTT");                                                                              // Create a window called "Hello, world!" and append into it.
+        ImGui::Begin("Welcome to UTTT");                                                                            // Create a window called "Hello, world!" and append into it.
 
         ImGui::Text("This is some useful text."); // Display some text
         if (ImGui::Button("Start Game"))
@@ -164,6 +163,7 @@ private:
 
     void loop()
     {
+        static bool show_game = false;
         while (!glfwWindowShouldClose(window))
         {
             glfwPollEvents();
@@ -174,7 +174,7 @@ private:
             ImGui::NewFrame();
 
             if (show_welcome)
-                Welcome_screen();
+                Welcome_screen(show_game);
 
             if (show_game)
                 Game();
@@ -195,8 +195,7 @@ private:
 public:
     int Run()
     {
-        //init isSelected with 0
-        
+        // init isSelected with 0
 
         glfwSetErrorCallback(glfw_error_callback);
         if (!glfwInit())
